@@ -58,7 +58,7 @@ configure do
 end
  
 post '/mail' do
-  cross_origin :allow_origin => 'http://localhost:9000',
+  cross_origin :allow_origin => ENV['ALLOWED_DOMAIN'].to_s,
     :allow_methods => [:get, :post, :options]
 
   first = params["firstName"]
@@ -66,9 +66,10 @@ post '/mail' do
   contact_email = params["email"]
   message = params["message"]
 
-
-  email = Mailer.contact(first, last, contact_email, message)
-  email.deliver
+  if request.referrer.include?(ENV['ALLOWED_DOMAIN'].to_s)
+    email = Mailer.contact(first, last, contact_email, message)
+    email.deliver
+  end
 end
 
 
