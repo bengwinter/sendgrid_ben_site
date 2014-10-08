@@ -69,6 +69,9 @@ post '/mail' do
   if request.referrer.include?(ENV['ALLOWED_DOMAIN'].to_s)
     email = Mailer.contact(first, last, contact_email, message)
     email.deliver
+    puts "EMAIL SENT"
+  else
+    puts "did not send"
   end
 end
 
