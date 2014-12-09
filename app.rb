@@ -102,7 +102,7 @@ post '/mail_july_camp' do
   message = params["message"]
 
   if request.referrer.include?(ENV['ALLOWED_DOMAIN_JULY_CAMP'].to_s)
-    email = Mailer.contact(name, contact_email, services, message)
+    email = Mailer.contact_julycamp(name, contact_email, services, message)
     email.deliver
   end
 end
