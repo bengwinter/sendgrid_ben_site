@@ -93,7 +93,7 @@ post '/mail_july_camp' do
   name = params["name"]
   contact_email = params["email"]
   services = ''
-  if params["services"] == [] 
+  if params["services"].class == Array
     params["services"].each do |service|
       services += service
     end
