@@ -96,6 +96,7 @@ post '/mail_july_camp' do
   if params["services"].class == Array
     params["services"].each do |service|
       services += service
+      services += "; "
     end
   end
   
