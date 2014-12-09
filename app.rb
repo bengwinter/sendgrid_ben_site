@@ -26,7 +26,7 @@ class Mailer < ActionMailer::Base
     @contact_email = contact_email
     @message = message
     mail(
-      :to      => "ben.g.winter@gmail.com",
+      :to      => ENV['EMAIL_ADDRESS'],
       :from    => "contact@benwinter.co",
       :subject => "Message from Personal Website") do |format|
         format.text
@@ -40,7 +40,7 @@ class Mailer < ActionMailer::Base
     @message = message
     @services = services
     mail(
-      :to      => "ben.g.winter@gmail.com",
+      :to      => ENV['EMAIL_ADDRESS'],
       :from    => "contact@julycamp.com",
       :subject => "Message from July Camp Website") do |format|
         format.text
