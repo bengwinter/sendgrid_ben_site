@@ -34,11 +34,11 @@ class Mailer < ActionMailer::Base
     end
   end
 
-  def contact_julycamp(name, contact_email, services, message)
+  def contact_julycamp(name, contact_email, phone, message)
     @name = name
     @contact_email = contact_email
     @message = message
-    @services = services
+    @phone = phone
     mail(
       :to      => ENV['EMAIL_ADDRESS'],
       :from    => "contact@julycamp.com",
@@ -77,11 +77,11 @@ post '/mail' do
 
   first = params["firstName"]
   last = params["lastName"]
-  contact_email = params["email"]
+  email = params["email"]
   message = params["message"]
 
   if request.referrer.include?(ENV['ALLOWED_DOMAIN_PERSONAL_SITE'].to_s)
-    email = Mailer.contact(first, last, contact_email, message)
+    email = Mailer.contact(first, last, email, message)
     email.deliver
   end
 end
@@ -92,18 +92,26 @@ post '/mail_july_camp' do
 
   name = params["name"]
   contact_email = params["email"]
-  services = ''
-  if params["services"].class == Array
-    params["services"].each do |service|
-      services += service
-      services += "; "
-    end
-  end
-  
+  phone = params["phone"]
   message = params["message"]
 
   if request.referrer.include?(ENV['ALLOWED_DOMAIN_JULY_CAMP'].to_s)
-    email = Mailer.contact_julycamp(name, contact_email, services, message)
+    email = Mailer.contact_julycamp(name, email, phone, message)
+    email.deliver
+  end
+end
+
+post '/mail_test' do
+  cross_origin :allow_origin => ENV['ALLOWED_DOMAIN_TEST'].to_s,
+    :allow_methods => [:get, :post, :options]
+
+  name = params["name"]
+  email = params["email"]
+  phone = params["phone"]
+  message = params["message"]
+
+  if request.referrer.include?(ENV['ALLOWED_DOMAIN_TEST'].to_s)
+    email = Mailer.contact_test(name, email, phone, message)
     email.deliver
   end
 end
